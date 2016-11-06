@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# DIAGRAM WORKS ONLY IN DEBUG MODE
-
 def plot_corr(df, size=10):
     """
     Function plots a graphical correlation matrix for each pair of columns in the dataframe.
@@ -25,23 +23,23 @@ def plot_corr(df, size=10):
     plt.xticks(range(len(corr.columns)), corr.columns)  # draw x tick marks
     plt.yticks(range(len(corr.columns)), corr.columns)  # draw y tick marks
 
+
 df = pd.read_csv('data/pima-data.csv')
-df.shape
-print('----------1-----')
-print(df.head(5))
-print('--------2-----')
-print(df.shape)
-print('------3--------')
 
 # print(plot_corr(df))
 plot_corr(df)
-print('--------4----------')
 df.corr()
-
-print(df.corr())
-
 del df['skin']
-print(df.head())
+print('--------1----------')
+print(df.head(5))
 
-plot_corr(df)
-input("Press ENTER to continue.")
+diabetes_map = {True : 1, False : 0}
+df['diabetes'] = df['diabetes'].map(diabetes_map)
+
+print('--------2----------')
+print(df.head(5))
+
+num_true = len(df.loc[df['diabetes'] == True])
+num_false = len(df.loc[df['diabetes'] == False])
+print("Number of True cases:  {0} ({1:2.2f}%)".format(num_true, (num_true/ (num_true + num_false)) * 100))
+print("Number of False cases: {0} ({1:2.2f}%)".format(num_false, (num_false/ (num_true + num_false)) * 100))
